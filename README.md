@@ -1,11 +1,5 @@
 # Turtle 3D Engine
 
-<p align="center">
-  <img src="preview.png" alt="3D Engine Preview" width="600">
-  <br>
-  <em>Default view of the 3D engine rendering a torus model</em>
-</p>
-
 A lightweight 3D rendering engine built with Python's built-in `turtle` graphics library. This project demonstrates real-time 3D graphics without external dependencies like OpenGL or Pygame.
 
 ## 🌟 Features
@@ -24,7 +18,6 @@ A lightweight 3D rendering engine built with Python's built-in `turtle` graphics
 - `turtle` module (built-in)
 - `keyboard` module (for controls)
 - Optional: `pygltflib` for GLTF support
-- Optional: `pyautogui` for screenshots
 
 ## 🚀 Installation
 
@@ -32,7 +25,6 @@ A lightweight 3D rendering engine built with Python's built-in `turtle` graphics
 # Install required packages
 pip install keyboard
 pip install pygltflib  # optional for GLTF support
-pip install pyautogui  # optional for screenshots
 ```
 
 ## 🎮 Usage
@@ -58,11 +50,6 @@ python render.py
 | **←** | Rotate left |
 | **→** | Rotate right |
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Python-3.6+-blue?style=for-the-badge" alt="Python version">
-  <img src="https://img.shields.io/badge/3D-Rendering-green?style=for-the-badge" alt="3D Rendering">
-</p>
-
 ## 📁 Project Structure
 
 ```
@@ -80,15 +67,8 @@ turtle-3d-engine/
 
 ### Rendering Pipeline
 
-```mermaid
-graph LR
-    A[Vertices] --> B[Transform to Camera Space]
-    B --> C[Near Plane Clipping]
-    C --> D[Perspective Projection]
-    D --> E[Backface Culling]
-    E --> F[Lighting Calculation]
-    F --> G[Fog Application]
-    G --> H[Draw Triangle]
+```
+Vertices → Camera Transform → Clipping → Projection → Culling → Lighting → Fog → Draw
 ```
 
 ### Camera System
@@ -173,22 +153,6 @@ if keyboard.is_pressed("w"):
 6. **Lighting**: Brightness is calculated based on surface normals
 7. **Fog**: Distance-based fog is applied for depth effect
 8. **Rendering**: Triangles are drawn using turtle graphics
-
-## 📸 Screenshots
-
-<p align="center">
-  <img src="preview.png" alt="Default View" width="400">
-  <img src="preview_rotated.png" alt="Rotated View" width="400">
-  <br>
-  <em>Default and rotated views of the 3D engine</em>
-</p>
-
-<p align="center">
-  <img src="preview_top.png" alt="Top-down View" width="400">
-  <img src="preview_side.png" alt="Side View" width="400">
-  <br>
-  <em>Top-down and side views showing different camera angles</em>
-</p>
 
 ## 🤝 Contributing
 
