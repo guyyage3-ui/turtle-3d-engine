@@ -3,7 +3,7 @@
 <p align="center">
   <img src="preview.png" alt="3D Engine Preview" width="600">
   <br>
-  <em>3D rendering preview with the monkey model</em>
+  <em>Default view of the 3D engine rendering a torus model</em>
 </p>
 
 A lightweight 3D rendering engine built with Python's built-in `turtle` graphics library. This project demonstrates real-time 3D graphics without external dependencies like OpenGL or Pygame.
@@ -70,6 +70,7 @@ turtle-3d-engine/
 ├── render.py          # Main rendering engine with camera, lighting, and drawing
 ├── obj_loader.py      # OBJ file loader with normal generation
 ├── gltf_loader.py     # GLTF file loader (requires pygltflib)
+├── make_screenshots.py # Script to capture engine screenshots
 ├── monkey.obj         # Sample 3D model (Torus)
 ├── monkey.mtl         # Material file for the model
 └── README.md          # This file
@@ -176,9 +177,17 @@ if keyboard.is_pressed("w"):
 ## 📸 Screenshots
 
 <p align="center">
-  <img src="preview.png" alt="3D Engine Preview" width="600">
+  <img src="preview.png" alt="Default View" width="400">
+  <img src="preview_rotated.png" alt="Rotated View" width="400">
   <br>
-  <em>Rendering of a torus model with lighting and fog effects</em>
+  <em>Default and rotated views of the 3D engine</em>
+</p>
+
+<p align="center">
+  <img src="preview_top.png" alt="Top-down View" width="400">
+  <img src="preview_side.png" alt="Side View" width="400">
+  <br>
+  <em>Top-down and side views showing different camera angles</em>
 </p>
 
 ## 🤝 Contributing
