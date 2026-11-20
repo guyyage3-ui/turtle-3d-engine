@@ -385,9 +385,12 @@ def controls(delta):
 
     # movement
 
-    keyboard.add_hotkey("w", lambda: camera_x + sin_h * move_speed, camera_z + cos_h * move_speed)
 
 
+    if keyboard.is_pressed("w"):
+
+        camera_x += sin_h * move_speed
+        camera_z += cos_h * move_speed
 
     if keyboard.is_pressed("s"):
 
