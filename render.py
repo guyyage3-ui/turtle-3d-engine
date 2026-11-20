@@ -69,6 +69,40 @@ light_y /= light_len
 light_z /= light_len
 
 # ============================================
+# TEXTURE SYSTEM
+# ============================================
+
+def create_checker_texture():
+    """Create a simple checkerboard texture pattern"""
+    texture = []
+    for i in range(8):
+        row = []
+        for j in range(8):
+            if (i + j) % 2 == 0:
+                row.append((200, 200, 200))  # Light gray
+            else:
+                row.append((150, 150, 150))  # Dark gray
+        texture.append(row)
+    return texture
+
+def get_texture_color(u, v, texture):
+    """Get color from texture coordinates"""
+    u = abs(u) % 1
+    v = abs(v) % 1
+    u = max(0, min(1, u))
+    v = max(0, min(1, v))
+    
+    x = int(u * 8)
+    y = int(v * 8)
+    x = min(x, 7)
+    y = min(y, 7)
+    
+    return texture[y][x]
+
+# Use checkerboard texture
+texture = create_checker_texture()
+
+# ============================================
 # LOAD MODEL
 # ============================================
 
@@ -178,7 +212,7 @@ def normal_brightness(nx, ny, nz):
     return brightness
 
 # ============================================
-# DRAW TRIANGLE
+# DRAW TRIANGLE WITH TEXTURE
 # ============================================
 
 def draw_triangle(tri):
@@ -286,20 +320,31 @@ def draw_triangle(tri):
     )
 
     # ========================================
-    # BASE COLOR
+    # TEXTURE COORDS (using vertex positions)
     # ========================================
 
-    base_r = 180
-    base_g = 210
-    base_b = 255
+    # Simple texture coordinate generation based on position
+    u1 = (v1[0] + 1) / 2
+    v1_coord = (v1[2] + 1) / 2
+    u2 = (v2[0] + 1) / 2
+    v2_coord = (v2[2] + 1) / 2
+    u3 = (v3[0] + 1) / 2
+    v3_coord = (v3[2] + 1) / 2
+
+    # Average texture coordinates
+    u_avg = (u1 + u2 + u3) / 3
+    v_avg = (v1_coord + v2_coord + v3_coord) / 3
+
+    # Get texture color
+    texture_color = get_texture_color(u_avg, v_avg, texture)
 
     # ========================================
-    # APPLY LIGHT
+    # APPLY LIGHT TO TEXTURE
     # ========================================
 
-    r = int(base_r * brightness)
-    g = int(base_g * brightness)
-    b = int(base_b * brightness)
+    r = int(texture_color[0] * brightness)
+    g = int(texture_color[1] * brightness)
+    b = int(texture_color[2] * brightness)
 
     # ========================================
     # APPLY FOG
@@ -384,8 +429,6 @@ def controls(delta):
     rot_speed = 0.03 * delta
 
     # movement
-
-
 
     if keyboard.is_pressed("w"):
 
