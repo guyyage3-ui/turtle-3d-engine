@@ -1,33 +1,41 @@
 # Turtle 3D Engine
 
-3D rendering engine built with Python's `turtle` graphics library.
+<p align="center">
+  <img src="preview.png" alt="3D Engine Preview" width="600">
+  <br>
+  <em>3D rendering preview with the monkey model</em>
+</p>
 
-## Overview
+A lightweight 3D rendering engine built with Python's built-in `turtle` graphics library. This project demonstrates real-time 3D graphics without external dependencies like OpenGL or Pygame.
 
-This project implements a real-time 3D engine using only Python's built-in `turtle` module. It features:
+## 🌟 Features
 
-- **3D Rendering**: Triangle-based rasterization with depth sorting
+- **3D Rendering**: Triangle-based rasterization with depth sorting (Painter's Algorithm)
 - **Camera Controls**: First-person style camera movement and rotation
-- **Lighting**: Directional lighting with normal-based brightness calculation
+- **Lighting System**: Directional lighting with normal-based brightness calculation
 - **Fog Effects**: Distance-based fog for depth perception
 - **OBJ Model Loading**: Support for loading 3D models in OBJ format
 - **Backface Culling**: Optimized rendering by culling back-facing triangles
+- **No External Dependencies**: Uses only Python standard library + keyboard
 
-## Requirements
+## 📋 Requirements
 
 - Python 3.x
 - `turtle` module (built-in)
 - `keyboard` module (for controls)
 - Optional: `pygltflib` for GLTF support
+- Optional: `pyautogui` for screenshots
 
-## Installation
+## 🚀 Installation
 
 ```bash
+# Install required packages
 pip install keyboard
 pip install pygltflib  # optional for GLTF support
+pip install pyautogui  # optional for screenshots
 ```
 
-## Usage
+## 🎮 Usage
 
 ### Basic Rendering (OBJ Files)
 
@@ -37,15 +45,25 @@ python render.py
 
 ### Controls
 
-- **W/A/S/D** - Move forward, left, backward, right
-- **Space/Shift** - Move up/down (vertical movement)
-- **Arrow Keys** - Rotate camera (up/down/left/right)
+| Key | Action |
+|-----|--------|
+| **W** | Move forward |
+| **S** | Move backward |
+| **A** | Move left |
+| **D** | Move right |
+| **Space** | Move up |
+| **Shift** | Move down |
+| **↑** | Rotate up |
+| **↓** | Rotate down |
+| **←** | Rotate left |
+| **→** | Rotate right |
 
-### Example Model
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.6+-blue?style=for-the-badge" alt="Python version">
+  <img src="https://img.shields.io/badge/3D-Rendering-green?style=for-the-badge" alt="3D Rendering">
+</p>
 
-The repository includes a monkey model (`monkey.obj`) for demonstration. Simply run `render.py` to see it in action.
-
-## Project Structure
+## 📁 Project Structure
 
 ```
 turtle-3d-engine/
@@ -57,35 +75,32 @@ turtle-3d-engine/
 └── README.md          # This file
 ```
 
-## Key Features
-
-### Camera System
-- Horizontal and vertical rotation
-- Position-based movement relative to camera orientation
-- Perspective projection with configurable focal length
-
-### Lighting
-- Directional light source
-- Normal-based brightness calculation
-- Ambient minimum brightness (20%)
-- Automatic light vector normalization
+## 🔧 Technical Details
 
 ### Rendering Pipeline
-1. Vertex transformation (camera space)
-2. Near plane clipping
-3. Perspective projection
-4. Backface culling (cross product test)
-5. Normal-based lighting
-6. Fog calculation
-7. Color blending with fog
 
-### OBJ Loader Features
-- Loads vertices and normals from OBJ files
-- Automatic normal generation if normals are missing
-- Triangulation of polygon faces
-- Support for missing normal indices
+```mermaid
+graph LR
+    A[Vertices] --> B[Transform to Camera Space]
+    B --> C[Near Plane Clipping]
+    C --> D[Perspective Projection]
+    D --> E[Backface Culling]
+    E --> F[Lighting Calculation]
+    F --> G[Fog Application]
+    G --> H[Draw Triangle]
+```
 
-## Technical Details
+### Camera System
+- Horizontal and vertical rotation with clamping
+- Position-based movement relative to camera orientation
+- Perspective projection with configurable focal length (500 pixels)
+- Near plane clipping at 0.1 units
+
+### Lighting
+- Directional light source with automatic normalization
+- Normal-based brightness calculation using dot product
+- Ambient minimum brightness (20%) to prevent total darkness
+- Automatic light vector updates on rotation
 
 ### Rendering Algorithm
 - **Painter's Algorithm**: Triangles are sorted by depth and rendered farthest first
@@ -93,12 +108,90 @@ turtle-3d-engine/
 - **Near Plane Clipping**: Triangles with z ≤ 0.1 are discarded
 - **Backface Culling**: Uses cross product to determine triangle winding order
 
-### Configuration
-- Window size: 1280x720
-- Focal length: 500
-- Near plane: 0.1
-- Fog factor: max(0.45, z/80)
+### OBJ Loader Features
+- Loads vertices and normals from OBJ files
+- Automatic normal generation if normals are missing
+- Triangulation of polygon faces
+- Support for missing normal indices
 
-## License
+## 🎯 Example Code
+
+### Basic 3D Rendering
+
+```python
+import turtle
+from obj_loader import load_obj
+
+# Setup screen
+turtle.setup(1280, 720)
+screen = turtle.Screen()
+screen.bgcolor("#22252b")
+
+# Load model
+verts, normals, tris = load_obj("monkey.obj")
+
+# Render loop
+while True:
+    # Your rendering code here
+    pass
+```
+
+### Camera Movement
+
+```python
+# Camera variables
+camera_x = 0
+camera_y = 0
+camera_z = -5
+rot_h = 0  # Horizontal rotation
+rot_v = 0  # Vertical rotation
+
+# Movement controls
+if keyboard.is_pressed("w"):
+    camera_x += sin_h * move_speed
+    camera_z += cos_h * move_speed
+```
+
+## 📊 Configuration
+
+| Parameter | Value | Description |
+|-----------|-------|-------------|
+| Window Size | 1280x720 | Display resolution |
+| Focal Length | 500 | Perspective projection factor |
+| Near Plane | 0.1 | Minimum z-distance for rendering |
+| Base Color | (180, 210, 255) | Light blue triangle color |
+| Fog Factor | z/80 | Distance-based fog calculation |
+
+## 💡 How It Works
+
+1. **Model Loading**: OBJ files are parsed to extract vertices and normals
+2. **Camera Transform**: Points are transformed relative to camera position
+3. **Clipping**: Triangles behind the near plane are discarded
+4. **Projection**: 3D coordinates are projected to 2D screen space
+5. **Culling**: Back-facing triangles are removed for optimization
+6. **Lighting**: Brightness is calculated based on surface normals
+7. **Fog**: Distance-based fog is applied for depth effect
+8. **Rendering**: Triangles are drawn using turtle graphics
+
+## 📸 Screenshots
+
+<p align="center">
+  <img src="preview.png" alt="3D Engine Preview" width="600">
+  <br>
+  <em>Rendering of a torus model with lighting and fog effects</em>
+</p>
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit issues or pull requests.
+
+## 📝 License
 
 This project is provided as-is for educational purposes.
+
+---
+
+<p align="center">
+  <img src="https://img.shields.io/github/stars/guyyage3-ui/turtle-3d-engine?style=social" alt="Stars">
+  <img src="https://img.shields.io/github/forks/guyyage3-ui/turtle-3d-engine?style=social" alt="Forks">
+</p>
